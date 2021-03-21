@@ -1,0 +1,1 @@
+export const AQIVAH_PURPLE = '#ab32e5'
