@@ -1,6 +1,7 @@
 import useWindowSize from "hooks/useWindowSize"
 import Link from "next/link"
 import {useState} from "react"
+import {Menu, X} from "react-feather"
 import BackButton from "./BackButton"
 import Heading from "./Header"
 
@@ -12,8 +13,27 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
       style={{width: "100%", height: "100%", borderRight: "1px solid black"}}
     >
       {isInMobileView && (
-        <div onClick={() => setExpanded(prev => !prev)}>
-          Click here to {expanded ? "hide" : "show"} the menu
+        <div
+          onClick={() => setExpanded(prev => !prev)}
+          style={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
+          {/* Click here to {expanded ? "hide" : "show"} the menu */}
+          <div
+            style={{
+              padding: "10px",
+              position: "fixed",
+              top: 0,
+              // left: 0,
+              right: 0,
+            }}
+          >
+            {expanded ? <X /> : <Menu />}
+          </div>
         </div>
       )}
       {expanded || !isInMobileView ? (
