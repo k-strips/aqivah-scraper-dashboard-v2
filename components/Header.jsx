@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 
-const Header = styled.div`
+const Header = styled.span`
 font-weight: 800;
 font-size: 24px;
 margin: 20px 0;

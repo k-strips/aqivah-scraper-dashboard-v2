@@ -69,7 +69,7 @@ const DashboardLayout = props => {
       </div>
       <div style={{flexGrow: 1, padding: "10px", overflowX: "scroll"}}>
         {!isInMobileView ? (
-          <div style={{textAlign: "right", padding: "30px"}}>Logout</div>
+          <div style={{textAlign: "right", padding: "30px 30px 0 0"}}>Logout</div>
         ) : null}
 
         <div

@@ -9,6 +9,14 @@ function list() {
     .catch(e => { throw e; });
 }
 
+function create({ label }) {
+  return base
+    .post('/field-types', { label })
+    .then(returnResponseOrError)
+    .catch(e => { throw e; });
+}
+
 export default {
   list,
-}
+  create,
+};
