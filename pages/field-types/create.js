@@ -1,6 +1,7 @@
 import useLoader from "hooks/useLoader";
+import useToast from 'hooks/useToast'
 import { useState } from "react";
-import { toast, useToast } from "react-toastify";
+import { toast } from "react-toastify";
 import FieldTypesApi from 'api/fieldTypes'
 
 const { default: DashboardLayout } = require("@components/DashboardLayout");
@@ -25,7 +26,7 @@ async function submitFieldType({ showLoader, hideLoader, name }) {
 function FieldTypesCreate() {
   const [name, setName] = useState('');
   const { showLoader, hideLoader } = useLoader();
-  //? why is this failing? const notify = useToast();
+  const notify = useToast();
 
   return <DashboardLayout heading={<div>{`Field Types > Create`}</div>}>
     <Card style={{ maxWidth: '500px', }}>
@@ -38,7 +39,7 @@ function FieldTypesCreate() {
         </Form.Group>
       </Card.Body>
       <Card.Footer>
-        <Button variant='dark' style={{ marginLeft: 'auto', display: 'block', }} onClick={() => submitFieldType({ showLoader, hideLoader, name, })}>Save</Button>
+        <Button variant='dark' style={{ marginLeft: 'auto', display: 'block', }} onClick={() => submitFieldType({ showLoader, hideLoader, name, notify})}>Save</Button>
       </Card.Footer>
     </Card>
   </DashboardLayout>;

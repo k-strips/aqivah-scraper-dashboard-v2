@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-function useToast() {
+function useNotifier() {
   return {
     success: msg => toast.success(msg || 'Success'),
     info: msg => toast.info(msg),
@@ -9,4 +9,4 @@ function useToast() {
   };
 }
 
-export default useToast;
+export default useNotifier;
