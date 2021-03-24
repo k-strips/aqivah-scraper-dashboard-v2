@@ -49,7 +49,6 @@ async function fetchFieldTypes({ showLoader, hideLoader, setFieldTypes, notify =
 
 const Heading = () => <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
   <div style={{ marginRight: '20px' }}>Field Types</div>
-
   <Link href='/field-types/create'>
     <Button variant='dark'>Create</Button>
   </Link>
@@ -62,7 +61,6 @@ function FieldTypes() {
   useEffect(() => { fetchFieldTypes({ showLoader, hideLoader, setFieldTypes }); }, []);
 
   return <DashboardLayout heading={<Heading />} hideBackButton >
-
     <CustomTable columns={columns} records={fieldTypes} />
   </DashboardLayout>;
 }
