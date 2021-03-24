@@ -3,6 +3,7 @@ import useToast from 'hooks/useToast'
 import { useState } from "react";
 import { toast } from "react-toastify";
 import FieldTypesApi from 'api/fieldTypes'
+import FormSubmitButton from "@components/FormSubmitButton";
 
 const { default: DashboardLayout } = require("@components/DashboardLayout");
 const { Form, Card, Button } = require("react-bootstrap");
@@ -28,7 +29,7 @@ function FieldTypesCreate() {
   const { showLoader, hideLoader } = useLoader();
   const notify = useToast();
 
-  return <DashboardLayout heading={<div>{`Field Types > Create`}</div>}>
+  return <DashboardLayout heading={`Field Types > Create`}>
     <Card style={{ maxWidth: '500px', }}>
       <Card.Body>
         <Card.Title>Create a new field type</Card.Title>
@@ -37,10 +38,8 @@ function FieldTypesCreate() {
           <Form.Label>Name</Form.Label>
           <Form.Control placeholder='name' value={name} onChange={e => setName(e.target.value)} />
         </Form.Group>
+        <FormSubmitButton onClick={() => submitFieldType({ showLoader, hideLoader, name, notify})} />
       </Card.Body>
-      <Card.Footer>
-        <Button variant='dark' style={{ marginLeft: 'auto', display: 'block', }} onClick={() => submitFieldType({ showLoader, hideLoader, name, notify})}>Save</Button>
-      </Card.Footer>
     </Card>
   </DashboardLayout>;
 }

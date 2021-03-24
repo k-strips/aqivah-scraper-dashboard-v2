@@ -1,3 +1,4 @@
+import {MAX_MOBILE_VIEW_WIDTH} from "config"
 import useWindowSize from "hooks/useWindowSize"
 import Link from "next/link"
 import {useState} from "react"
@@ -30,6 +31,7 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
               top: 0,
               // left: 0,
               right: 0,
+              zIndex: "100",
             }}
           >
             {expanded ? <X /> : <Menu />}
@@ -38,12 +40,24 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
       )}
       {expanded || !isInMobileView ? (
         <div
-          style={{display: "flex", flexDirection: "column", padding: "30px"}}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "30px",
+            position: isInMobileView ? "absolute" : "relative",
+            background: "white",
+            // height: "80vh",
+            zIndex: "99",
+            width: "100vw",
+          }}
+          onClick={() => {
+            setExpanded(false)
+          }}
         >
           <Link href="/">Dashboard</Link>
           <Link href="/new-properties">New Properties</Link>
           <Link href="/field-types">Field Types</Link>
-          <Link href='/fields'>Fields</Link>
+          <Link href="/fields">Fields</Link>
         </div>
       ) : null}
     </div>
@@ -55,7 +69,7 @@ const DashboardLayout = props => {
   const {width} = useWindowSize()
 
   // if we're in the mobile view, place the nav bar at the top, else place it to the left
-  const isInMobileView = width < 501
+  const isInMobileView = width < MAX_MOBILE_VIEW_WIDTH
 
   return (
     <div
@@ -70,7 +84,9 @@ const DashboardLayout = props => {
       </div>
       <div style={{flexGrow: 1, padding: "10px", overflowX: "scroll"}}>
         {!isInMobileView ? (
-          <div style={{textAlign: "right", padding: "30px 30px 0 0"}}>Logout</div>
+          <div style={{textAlign: "right", padding: "30px 30px 0 0"}}>
+            Logout
+          </div>
         ) : null}
 
         <div
