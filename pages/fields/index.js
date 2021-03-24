@@ -1,6 +1,7 @@
 const { default: DashboardLayout } = require("@components/DashboardLayout");
 const { default: HeadingWithButton } = require("@components/HeadingWithButton");
 const { default: CustomTable } = require("@components/Table");
+import { FieldActions } from '@components/Table';
 import FieldsApi from 'api/fields';
 import { augmentResponseForTable } from 'api/helpers';
 import useLoader from 'hooks/useLoader';
@@ -9,7 +10,8 @@ import { useEffect, useState } from 'react';
 
 
 const columns = {
-  ids: ['id', 'label', 'createdAt', 'isAqivahField'],
+  ids: ['id', 'label', 'createdAt', 'isAqivahField', 'isRequired',
+    'actions',],
   values: {
     id: {
       key: 'id',
@@ -18,9 +20,11 @@ const columns = {
     label: { key: 'label', label: 'Name' },
     createdAt: { key: 'createdAt', label: 'Created' },
     isAqivahField: {
-      id: 'isAqivahField', label: 'IsAqivahField',
+      id: 'isAqivahField', label: 'Is Aqivah Field',
       getValue: record => record?.isAqivahField.toString()
     },
+    isRequired: { id: 'isRequired', label: 'Is Required', getValue: record => record?.isRequired ? 'True' : 'False' },
+    actions: { id: 'actions', label: 'Actions', getValue: record => <FieldActions onClickView={() => { }} /> }
   }
 };
 
