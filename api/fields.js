@@ -9,6 +9,14 @@ function list() {
     .catch(e => { throw e; });
 }
 
+function create({ label, isRequired, isAqivahField }) {
+  return base
+    .post('/fields', { label, isRequired, isAqivahField })
+    .then(returnResponseOrError)
+    .catch(e => { throw e; });
+}
+
 export default {
   list,
-}
+  create,
+};
