@@ -1,6 +1,8 @@
 import useWindowSize from "hooks/useWindowSize"
 import Link from "next/link"
 import {useState} from "react"
+import BackButton from "./BackButton"
+import Heading from "./Header"
 
 const Sidebar = ({selected = {}, isInMobileView = true}) => {
   const [expanded, setExpanded] = useState(false)
@@ -20,6 +22,7 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
         >
           <Link href="/">Dashboard</Link>
           <Link href="/new-properties">New Properties</Link>
+          <Link href="/field-types">Field Types</Link>
         </div>
       ) : null}
     </div>
@@ -27,7 +30,7 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
 }
 
 const DashboardLayout = props => {
-  const {children} = props
+  const {children, heading, hideBackButton} = props
   const {width} = useWindowSize()
 
   // if we're in the mobile view, place the nav bar at the top, else place it to the left
@@ -48,6 +51,18 @@ const DashboardLayout = props => {
         {!isInMobileView ? (
           <div style={{textAlign: "right", padding: "30px"}}>Logout</div>
         ) : null}
+
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "flex-start",
+          }}
+        >
+          {hideBackButton ? null : <BackButton />}
+          <Heading>{heading}</Heading>
+        </div>
         {children}
       </div>
     </div>

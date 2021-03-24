@@ -22,6 +22,10 @@ async function fetchScrapingSessions({ notify, showLoader, hideLoader, setScrapi
   }
 }
 
+// TODO: the source link should take you to the details page of the source. not the url.
+
+// TODO: format the date and time well. date-fns
+
 const columns = {
   ids: ['id', 'Source', 'startedAt', 'endedAt', 'result', 'actions',],
   values: {
@@ -32,7 +36,7 @@ const columns = {
     Source: {
       id: 'Source',
       label: 'Source',
-      getValue: record => record?.Source?.label
+      getValue: record => <a target='_blank' rel='noreferrer noopener' href={record?.Source?.url}>{record?.Source?.label}</a>
     },
     startedAt: {
       id: 'startedAt',

@@ -31,7 +31,7 @@ function CustomTable({
   columns = {ids: [], values: {}},
   records = {ids: [], values: {}},
 }) {
-  console.log(columns)
+  // console.log(columns)
   return (
     <>
       <Table
