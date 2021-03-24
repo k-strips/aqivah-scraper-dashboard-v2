@@ -44,7 +44,7 @@ function Fields() {
 
   useEffect(() => { fetchFields({ showLoader, hideLoader, notify, setFields }); }, []);
 
-  return <DashboardLayout heading={<HeadingWithButton btnTitle='Create' btnLink='/fields/create' heading='Fields' />}>
+  return <DashboardLayout hideBackButton heading={<HeadingWithButton btnTitle='Create' btnLink='/fields/create' heading='Fields' />}>
     <CustomTable columns={columns} records={fields} />
   </DashboardLayout>;
 }
