@@ -5,6 +5,7 @@ import {useState} from "react"
 import {Menu, X} from "react-feather"
 import BackButton from "./BackButton"
 import Heading from "./Header"
+import HeadingWithButton from "./HeadingWithButton"
 
 const Sidebar = ({selected = {}, isInMobileView = true}) => {
   const [expanded, setExpanded] = useState(false)
@@ -13,7 +14,7 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
     <div
       style={{width: "100%", height: "100%", borderRight: "1px solid black"}}
     >
-      {isInMobileView && (
+      {isInMobileView ? (
         <div
           onClick={() => setExpanded(prev => !prev)}
           style={{
@@ -37,7 +38,7 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
             {expanded ? <X /> : <Menu />}
           </div>
         </div>
-      )}
+      ) : null}
       {expanded || !isInMobileView ? (
         <div
           style={{
@@ -48,13 +49,13 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
             background: "white",
             // height: "80vh",
             zIndex: "99",
-            width: "100vw",
+            width: "100%",
           }}
           onClick={() => {
             setExpanded(false)
           }}
         >
-          <Link href="/">Dashboard</Link>
+          <Link href="/">Home</Link>
           <Link href="/new-properties">New Properties</Link>
           <Link href="/field-types">Field Types</Link>
           <Link href="/fields">Fields</Link>
@@ -77,12 +78,13 @@ const DashboardLayout = props => {
         display: "flex",
         flexDirection: isInMobileView ? "column" : "row",
         minHeight: "100vh",
+        width: "100%",
       }}
     >
       <div style={{width: isInMobileView ? "100vw" : "20vw"}}>
         <Sidebar isInMobileView={isInMobileView} />
       </div>
-      <div style={{flexGrow: 1, padding: "10px", overflowX: "scroll"}}>
+      <div style={{padding: "10px", overflowX: "scroll"}}>
         {!isInMobileView ? (
           <div style={{textAlign: "right", padding: "30px 30px 0 0"}}>
             Logout
@@ -92,7 +94,7 @@ const DashboardLayout = props => {
         <div
           style={{
             display: "flex",
-            width: "100%",
+            width: isInMobileView ? "100vw" : "80vw",
             alignItems: "center",
             justifyContent: "flex-start",
           }}

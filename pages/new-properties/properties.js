@@ -1,6 +1,6 @@
 const { default: DashboardLayout } = require("@components/DashboardLayout");
 const { default: Header } = require("@components/Header");
-import BackButton from 'components/BackButton';
+import BackButton from '@components/BackButton';
 
 function NewScraperProperties() {
 

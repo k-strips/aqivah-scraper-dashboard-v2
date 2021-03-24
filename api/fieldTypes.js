@@ -9,6 +9,13 @@ function list() {
     .catch(e => { throw e; });
 }
 
+function get(id) {
+  return base
+    .get(`/field-types/${id}`)
+    .then(returnResponseOrError)
+    .catch(e => { throw e; });
+}
+
 function create({ label }) {
   return base
     .post('/field-types', { label })
@@ -16,7 +23,16 @@ function create({ label }) {
     .catch(e => { throw e; });
 }
 
+function update({ label, id }) {
+  return base
+    .patch(`/field-types/${id}`, { label })
+    .then(returnResponseOrError)
+    .catch(e => { throw e; });
+}
+
 export default {
   list,
+  get,
   create,
+  update,
 };

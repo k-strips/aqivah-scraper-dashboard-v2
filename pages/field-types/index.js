@@ -5,9 +5,7 @@ import FieldTypesApi from 'api/fieldTypes';
 import { augmentResponseForTable } from "api/helpers";
 import useLoader from "hooks/useLoader";
 import { FieldActions } from "@components/Table";
-import { Button } from "react-bootstrap";
-import Header from "@components/Header";
-import Link from "next/link";
+import HeadingWithButton from "@components/HeadingWithButton";
 
 const columns = {
   ids: ['id', 'label', 'createdAt', 'actions'],
@@ -27,7 +25,9 @@ const columns = {
     actions: {
       key: 'actions',
       label: 'Actions',
-      getValue: record => <FieldActions onClickView={() => { }} onClickEdit={() => { }} onClickDelete={() => { }} />
+      getValue: record => <FieldActions onClickView={(router) => {
+        router.push(`/field-types/${record?.id}`);
+      }} onClickEdit={() => { }} onClickDelete={() => { }} />
     }
   }
 };
@@ -47,20 +47,13 @@ async function fetchFieldTypes({ showLoader, hideLoader, setFieldTypes, notify =
   }
 }
 
-const Heading = () => <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-  <div style={{ marginRight: '20px' }}>Field Types</div>
-  <Link href='/field-types/create'>
-    <Button variant='dark'>Create</Button>
-  </Link>
-</div>;
-
 function FieldTypes() {
   const [fieldTypes, setFieldTypes] = useState({ ids: [], values: {} });
   const { showLoader, hideLoader, } = useLoader();
 
   useEffect(() => { fetchFieldTypes({ showLoader, hideLoader, setFieldTypes }); }, []);
 
-  return <DashboardLayout heading={<Heading />} hideBackButton >
+  return <DashboardLayout heading={<HeadingWithButton btnTitle='Create' heading='Field Types' btnLink='/field-types/create' />} hideBackButton >
     <CustomTable columns={columns} records={fieldTypes} />
   </DashboardLayout>;
 }
