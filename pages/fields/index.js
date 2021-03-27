@@ -24,7 +24,7 @@ const columns = {
       getValue: record => record?.isAqivahField.toString()
     },
     isRequired: { id: 'isRequired', label: 'Is Required', getValue: record => record?.isRequired ? 'True' : 'False' },
-    actions: { id: 'actions', label: 'Actions', getValue: record => <FieldActions onClickView={() => { }} /> }
+    actions: { id: 'actions', label: 'Actions', getValue: record => <FieldActions onClickEdit={(router) => { router.push(`/fields/${record.id}`); }} /> }
   }
 };
 

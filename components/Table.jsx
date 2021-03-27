@@ -3,21 +3,24 @@ import React, {useReducer} from "react"
 import Table from "react-bootstrap/Table"
 import {Content} from "./DashboardLayout"
 import {Eye, Edit3, Trash2} from "react-feather"
-import { useRouter } from "next/router";
+import {useRouter} from "next/router"
 
 export const FieldActions = ({onClickEdit, onClickDelete, onClickView}) => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div
       style={{display: "flex", gap: "10px", cursor: "pointer", height: "100%"}}
     >
       {onClickView && (
-        <Eye onClick={() => onClickView(router)} style={{color: AQIVAH_PURPLE}} />
+        <Eye
+          onClick={() => onClickView(router)}
+          style={{color: AQIVAH_PURPLE}}
+        />
       )}
-      {onClickEdit && <Edit3 onClick={onClickEdit} />}
+      {onClickEdit && <Edit3 onClick={() => onClickEdit(router)} />}
       {onClickDelete && (
-        <Trash2 onClick={onClickDelete} style={{color: "red"}} />
+        <Trash2 onClick={() => onClickDelete(router)} style={{color: "red"}} />
       )}
       {/* {moreActions} */}
     </div>
