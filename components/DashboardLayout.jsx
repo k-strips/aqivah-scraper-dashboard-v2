@@ -59,6 +59,7 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
           <Link href="/new-properties">New Properties</Link>
           <Link href="/field-types">Field Types</Link>
           <Link href="/fields">Fields</Link>
+          <Link href="/sources">Sources</Link>
         </div>
       ) : null}
     </div>
