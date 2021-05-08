@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import BaseFilter from 'components/filters/BaseSelect';
 import FieldTypesApi from 'api/fieldTypes';
-import { useStateContext } from 'state/StateContext';
+import useNotifier from 'hooks/useToast';
 
 function FieldTypeSelect({ value, ...props }) {
-  const { notify } = useStateContext();
+  const notify = useNotifier();
   const [options, setOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 

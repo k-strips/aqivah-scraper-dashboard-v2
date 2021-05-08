@@ -1,6 +1,5 @@
 import React from "react";
 import Select from "react-select";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 function BaseFilter({
   options,

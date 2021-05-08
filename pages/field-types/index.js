@@ -25,9 +25,12 @@ const columns = {
     actions: {
       key: 'actions',
       label: 'Actions',
-      getValue: record => <FieldActions onClickView={(router) => {
-        router.push(`/field-types/${record?.id}`);
-      }} onClickEdit={() => { }} onClickDelete={() => { }} />
+      getValue: record => <FieldActions
+        onClickView={(router) => {
+          router.push(`/field-types/${record?.id}`);
+        }}
+        onClickEdit={(router) => { router.push(`/field-types/${record.id}/edit`); }}
+        onClickDelete={() => { }} />
     }
   }
 };
