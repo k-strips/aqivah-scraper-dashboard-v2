@@ -127,7 +127,7 @@ function SourcesEdit() {
     const fieldIndex = fields.ids.indexOf(id)
     fields.ids.splice(fieldIndex, 1)
 
-    setFields(fields)
+    setFields({ids: [...fields.ids], values: {...fields.values}})
   }
 
   return (

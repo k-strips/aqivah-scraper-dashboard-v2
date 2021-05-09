@@ -6,15 +6,22 @@ import useLoader from "hooks/useLoader"
 import useNotifier from "hooks/useToast"
 import {useState} from "react"
 import {Button, Card, Col, Form, Row} from "react-bootstrap"
-import SourcesApi from 'api/sources'
+import SourcesApi from "api/sources"
 
 const {default: DashboardLayout} = require("@components/DashboardLayout")
 
 async function create({showLoader, hideLoader, notify, source, fields}) {
   try {
     showLoader()
-    const fieldValues = Object.values(fields.values);
-    source.paginationType = source.paginationType.value;
+    const fieldValues = Object.values(fields.values).map(each => {
+      return {
+        type: each?.type?.id,
+        name: each?.field?.id,
+        querySelector: each?.querySelector,
+        isActive: each?.isActive,
+      }
+    })
+    source.paginationType = source.paginationType.value
     const response = await SourcesApi.create({source, fields: fieldValues})
     console.log("successfully created source -> ", response)
     notify.success()
@@ -54,6 +61,7 @@ function SourcesCreate() {
       isActive: true,
       selector: "",
       id: fields.ids.length,
+      field: null,
     }
     setFields({
       ids: [...fields.ids, newField.id],
@@ -74,13 +82,12 @@ function SourcesCreate() {
     const fieldIndex = fields.ids.indexOf(id)
     fields.ids.splice(fieldIndex, 1)
 
-    setFields(fields)
+    setFields({ids: [...fields.ids], values: {...fields.values}})
   }
 
   return (
     <>
       <DashboardLayout heading={`Sources > Create`}>
-       
         <Card>
           <Card.Body>
             <Card.Title>Create a new source</Card.Title>
@@ -178,18 +185,25 @@ function SourcesCreate() {
                 {/* <Col md="3">Is Required</Col> */}
               </Row>
             </div>
-            {fields.ids.map(each => {
-              const id = each.id
+            {fields.ids.map(id => {
+              const each = fields.values[id]
+
               return (
                 <Row style={{marginBottom: "10px"}}>
                   <Col md="3">
                     <div className="hidden-field-headers">Field</div>
-                    <FieldFilter />
+                    <FieldFilter
+                      value={each?.field}
+                      onChange={value => {
+                        const field = "field"
+                        updateField({id, field, value})
+                      }}
+                    />
                   </Col>
                   <Col md="3">
                     <div className="hidden-field-headers">Field Type</div>
                     <FieldTypeSelect
-                      value={each.type}
+                      value={each?.type}
                       onChange={value => {
                         const field = "type"
                         updateField({id, field, value})
@@ -199,7 +213,7 @@ function SourcesCreate() {
                   <Col md="3">
                     <div className="hidden-field-headers">Query Selector</div>
                     <Form.Control
-                      value={each.selector}
+                      value={each?.selector}
                       onChange={e => {
                         const field = "selector"
                         const value = e.target.value
@@ -217,7 +231,7 @@ function SourcesCreate() {
                       }}
                     >
                       <Form.Check
-                        checked={each.isActive}
+                        checked={each?.isActive}
                         onChange={() => {
                           const field = "isActive"
                           const value = !each.isActive
