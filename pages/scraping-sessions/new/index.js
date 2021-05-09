@@ -57,7 +57,7 @@ const columns = {
       id: 'actions',
       label: 'Actions',
       getValue: (record) => <FieldActions
-        onClickView={record?.result ? () => { } : null}
+        onClickView={router => { router.push(`/scraping-sessions/new/${record?.id}`); }}
       // onClickEdit={() => { }}
       // onClickDelete={() => { }} 
       />
@@ -74,7 +74,7 @@ function NewProperties() {
   useEffect(() => { fetchScrapingSessions({ showLoader, hideLoader, notify, setScrapingSessions }); }, []);
 
   return (
-    <DashboardLayout heading={`New Properties > Scraping Sessions`} hideBackButton>
+    <DashboardLayout heading={`New Properties Scraping Sessions`} hideBackButton>
       <CustomTable
         columns={columns}
         records={scrapingSessions} />
