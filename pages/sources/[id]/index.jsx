@@ -60,8 +60,11 @@ function SourcesView() {
   console.log("fields and source -> ", {fields, source})
 
   useEffect(() => {
+    if (!id) return
+
     getSource({showLoader, hideLoader, notify, id, setSource, setFields})
   }, [id])
+
 
   return (
     <DashboardLayout heading={`Sources > ${source?.label || id}`}>
@@ -103,7 +106,7 @@ function SourcesView() {
             <Form.Label>Pagination Type</Form.Label>
             <PaginationTypeSelect
               selectedValue={source?.paginationType}
-              disabled
+              isDisabled
               // onChange={selected =>
               //   updateSource({field: "paginationType", value: selected})
               // }
@@ -115,6 +118,7 @@ function SourcesView() {
               <Form.Label>Click Pagination Query Selector</Form.Label>
               <Form.Control
                 value={source.clickPaginationSelector}
+                disabled
                 // onChange={e =>
                 //   updateSource({
                 //     field: "clickPaginationSelector",
@@ -129,6 +133,7 @@ function SourcesView() {
             <Form.Label>Single Property Query Selector</Form.Label>
             <Form.Control
               value={source?.singlePropertyQuerySelector}
+              disabled
               // onChange={e =>
               //   updateSource({
               //     field: "singlePropertyQuerySelector",
@@ -174,7 +179,7 @@ function SourcesView() {
                   <div className="hidden-field-headers">Field</div>
                   <FieldFilter
                     value={each?.FieldId}
-                    disabled
+                    isDisabled
                     // onChange={value => {
                     //   const field = "field"
                     //   updateField({id, field, value})
@@ -185,7 +190,7 @@ function SourcesView() {
                   <div className="hidden-field-headers">Field Type</div>
                   <FieldTypeSelect
                     value={each?.typeId}
-                    disabled
+                    isDisabled
                     // onChange={value => {
                     //   const field = "type"
                     //   updateField({id, field, value})

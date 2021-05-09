@@ -9,7 +9,7 @@ import PaginationTypeSelect from "@components/filters/PaginationTypeSelect"
 import FormSubmitButton from "@components/FormSubmitButton"
 import FieldFilter from "@components/filters/FieldSelect"
 import FieldTypeSelect from "@components/filters/FieldTypeSelect"
-import {v4 as uuidv4} from 'uuid';
+import {v4 as uuidv4} from "uuid"
 
 async function getSource({
   showLoader,
@@ -49,14 +49,7 @@ async function getSource({
   }
 }
 
-async function save({
-  source,
-  fields,
-  showLoader,
-  hideLoader,
-  notify,
-  id,
-}) {
+async function save({source, fields, showLoader, hideLoader, notify, id}) {
   try {
     showLoader()
     const {paginationType: initialPaginationType} = source
@@ -95,8 +88,14 @@ function SourcesEdit() {
   console.log("fields and source -> ", {fields, source})
 
   useEffect(() => {
+    if (!id) return
+
     getSource({showLoader, hideLoader, notify, id, setSource, setFields})
-  }, [])
+  }, [id])
+
+  useEffect(() => {
+    console.log("new value of fields -> ", fields)
+  }, [fields])
 
   function updateSource({field, value}) {
     setSource({...source, [field]: value})
@@ -119,7 +118,7 @@ function SourcesEdit() {
     const updatedField = {...fields.values[id], [field]: value}
     setFields({
       ids: fields.ids,
-      values: {...fields.value, [id]: updatedField},
+      values: {...fields.values, [id]: updatedField},
     })
   }
 
@@ -238,7 +237,7 @@ function SourcesEdit() {
                 <Col md="3">
                   <div className="hidden-field-headers">Field</div>
                   <FieldFilter
-                    value={each?.field}
+                    value={each?.FieldId}
                     onChange={value => {
                       const field = "field"
                       updateField({id, field, value})
@@ -248,7 +247,7 @@ function SourcesEdit() {
                 <Col md="3">
                   <div className="hidden-field-headers">Field Type</div>
                   <FieldTypeSelect
-                    value={each?.type}
+                    value={each?.typeId}
                     onChange={value => {
                       const field = "type"
                       updateField({id, field, value})

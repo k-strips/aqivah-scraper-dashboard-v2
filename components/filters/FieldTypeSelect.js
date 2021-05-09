@@ -12,7 +12,6 @@ function FieldTypeSelect({ value, ...props }) {
     try {
       setIsLoading(true);
       const response = await FieldTypesApi.list();
-      console.log('fetched field types -> ', response);
       setOptions(response);
     } catch (error) {
       notify.error(error || 'Failed to fetch field types');
