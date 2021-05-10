@@ -30,10 +30,18 @@ function update({ id, source, fields }) {
     .catch(e => { throw e; });
 }
 
+function remove(id) {
+  return base
+    .delete(`/sources/${id}`)
+    .then(returnResponseOrError)
+    .catch(e => { throw e; });
+}
+
 
 export default {
   list,
   create,
   get,
   update,
+  remove,
 };

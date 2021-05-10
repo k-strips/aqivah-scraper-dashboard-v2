@@ -9,18 +9,21 @@ export const FieldActions = ({onClickEdit, onClickDelete, onClickView}) => {
   const router = useRouter()
 
   return (
-    <div
-      style={{display: "flex", gap: "10px", cursor: "pointer", height: "100%"}}
-    >
+    <div style={{display: "flex", cursor: "pointer", height: "100%"}}>
       {onClickView && (
         <Eye
           onClick={() => onClickView(router)}
-          style={{color: AQIVAH_PURPLE}}
+          style={{color: AQIVAH_PURPLE, margin: "0 5px"}}
         />
       )}
-      {onClickEdit && <Edit3 onClick={() => onClickEdit(router)} />}
+      {onClickEdit && (
+        <Edit3 onClick={() => onClickEdit(router)} style={{margin: "0 5px"}} />
+      )}
       {onClickDelete && (
-        <Trash2 onClick={() => onClickDelete(router)} style={{color: "red"}} />
+        <Trash2
+          onClick={() => onClickDelete(router)}
+          style={{color: "red", margin: "0 5px"}}
+        />
       )}
       {/* {moreActions} */}
     </div>

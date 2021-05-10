@@ -23,47 +23,18 @@ async function fetchSources({setSources, showLoader, hideLoader, notify}) {
   }
 }
 
-const columns = {
-  ids: [
-    "id",
-    "label",
-    "url",
-    "lastScrapedPage",
-    "lastScrapedTime",
-    "paginationType",
-    "singlePropertyQuerySelector",
-    "isActive",
-    "createdAt",
-    "updatedAt",
-    "actions",
-  ],
-  values: {
-    id: {label: "ID"},
-    label: {label: "Label"},
-    url: {
-      label: "URL",
-      getValue: record => <a href={record.url}>{record.url}</a>,
-    },
-    lastScrapedPage: {label: "Last Scraped Page Number"},
-    lastScrapedTime: {label: "Last Scraped Time"},
-    paginationType: {label: "Pagination Type"},
-    singlePropertyQuerySelector: {label: "Single Property Query Selector"},
-    isActive: {
-      label: "Is Active",
-      getValue: record => (record.isActive ? "False" : "True"),
-    },
-    createdAt: {label: "Created At"},
-    updatedAt: {label: "Updated At"},
-    actions: {
-      label: "Actions",
-      getValue: record => (
-        <FieldActions
-          onClickEdit={router => router.push(`/sources/${record?.id}/edit`)}
-          onClickView={router => router.push(`/sources/${record?.id}`)}
-        />
-      ),
-    },
-  },
+async function deleteSource({showLoader, hideLoader, notify, id, setSources}) {
+  try {
+    showLoader()
+    await SourcesApi.remove(id)
+    notify.success()
+    fetchSources({showLoader, hideLoader, setSources, notify})
+  } catch (error) {
+    notify.error("Unable to delete source")
+    console.error("failed to delete source -> ", error)
+  } finally {
+    hideLoader()
+  }
 }
 
 function Sources() {
@@ -74,6 +45,61 @@ function Sources() {
   useEffect(() => {
     fetchSources({setSources, notify, showLoader, hideLoader})
   }, [])
+
+  const columns = {
+    ids: [
+      "id",
+      "label",
+      "url",
+      "lastScrapedPage",
+      "lastScrapedTime",
+      "paginationType",
+      "singlePropertyQuerySelector",
+      "isActive",
+      "createdAt",
+      "updatedAt",
+      "actions",
+    ],
+    values: {
+      id: {label: "ID"},
+      label: {label: "Label"},
+      url: {
+        label: "URL",
+        getValue: record => <a href={record.url}>{record.url}</a>,
+      },
+      lastScrapedPage: {label: "Last Scraped Page Number"},
+      lastScrapedTime: {label: "Last Scraped Time"},
+      paginationType: {label: "Pagination Type"},
+      singlePropertyQuerySelector: {label: "Single Property Query Selector"},
+      isActive: {
+        label: "Is Active",
+        getValue: record => {
+          console.log("value of record -> ", record)
+          return record?.isActive.toString()
+        },
+      },
+      createdAt: {label: "Created At"},
+      updatedAt: {label: "Updated At"},
+      actions: {
+        label: "Actions",
+        getValue: record => (
+          <FieldActions
+            onClickEdit={router => router.push(`/sources/${record?.id}/edit`)}
+            onClickView={router => router.push(`/sources/${record?.id}`)}
+            onClickDelete={() => {
+              deleteSource({
+                showLoader,
+                hideLoader,
+                notify,
+                setSources,
+                id: record?.id,
+              })
+            }}
+          />
+        ),
+      },
+    },
+  }
 
   return (
     <DashboardLayout

@@ -65,12 +65,11 @@ function SourcesView() {
     getSource({showLoader, hideLoader, notify, id, setSource, setFields})
   }, [id])
 
-
   return (
     <DashboardLayout heading={`Sources > ${source?.label || id}`}>
       <Card>
         <Card.Body>
-          <Card.Title>Create a new source</Card.Title>
+          <Card.Title>Source Details</Card.Title>
           <br />
           <Form.Group>
             <Form.Label>Name</Form.Label>

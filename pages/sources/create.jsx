@@ -17,7 +17,7 @@ async function create({showLoader, hideLoader, notify, source, fields}) {
       return {
         type: each?.type?.id,
         name: each?.field?.id,
-        querySelector: each?.querySelector,
+        querySelector: each?.selector,
         isActive: each?.isActive,
       }
     })
