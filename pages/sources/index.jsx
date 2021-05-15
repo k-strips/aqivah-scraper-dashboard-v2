@@ -1,6 +1,7 @@
 import {FieldActions} from "@components/Table"
 import {augmentResponseForTable} from "api/helpers"
-
+import Modal from "react-bootstrap/Modal"
+import {Button} from "react-bootstrap"
 const {default: DashboardLayout} = require("@components/DashboardLayout")
 const {default: HeadingWithButton} = require("@components/HeadingWithButton")
 const {default: CustomTable} = require("@components/Table")
@@ -41,10 +42,18 @@ function Sources() {
   const [sources, setSources] = useState({ids: [], values: {}})
   const notify = useNotifier()
   const {showLoader, hideLoader} = useLoader()
+  const [sourceToDelete, setSourceToDelete] = useState()
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   useEffect(() => {
     fetchSources({setSources, notify, showLoader, hideLoader})
   }, [])
+
+  useEffect(() => {
+    if (!sourceToDelete) return
+
+    setShowDeleteModal(true)
+  }, [sourceToDelete])
 
   const columns = {
     ids: [
@@ -87,13 +96,14 @@ function Sources() {
             onClickEdit={router => router.push(`/sources/${record?.id}/edit`)}
             onClickView={router => router.push(`/sources/${record?.id}`)}
             onClickDelete={() => {
-              deleteSource({
-                showLoader,
-                hideLoader,
-                notify,
-                setSources,
-                id: record?.id,
-              })
+              setSourceToDelete(record)
+              // deleteSource({
+              //   showLoader,
+              //   hideLoader,
+              //   notify,
+              //   setSources,
+              //   id: record?.id,
+              // })
             }}
           />
         ),
@@ -112,6 +122,44 @@ function Sources() {
         />
       }
     >
+      <Modal
+        show={showDeleteModal}
+        centered
+        onHide={() => setShowDeleteModal(false)}
+      >
+        <Modal.Header>
+          <h5>Confirm Source Deletion</h5>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete the <b>"{sourceToDelete?.label}"</b>{" "}
+          source?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="dark"
+            onClick={() => {
+              setShowDeleteModal(false);
+              setSourceToDelete();
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              deleteSource({
+                showLoader,
+                hideLoader,
+                notify,
+                setSources,
+                id: sourceToDelete?.id,
+              })
+            }}
+          >
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <CustomTable columns={columns} records={sources} />
     </DashboardLayout>
   )
