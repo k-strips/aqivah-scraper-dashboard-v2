@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import BaseFilter from './BaseSelect';
 // import { useQuery } from 'react-query';
 import FieldApi from 'api/fields';
-// import { listFields } from 'api/queries';
-// import { notify } from 'App';
-// import { useStateContext } from 'state/StateContext';
 import useNotifier from 'hooks/useToast';
 
 
@@ -31,16 +28,22 @@ function FieldFilter({ value, ...props }) {
     fetchFields();
   }, []);
 
-  // if (isError) notify.error(error || 'Failed to fetch fields');
+  useEffect(() => {
+    if (!value) return;
+    console.log('new value -> ', value);
+  }, [value]);
 
-  const selectedField = fields.find(each => each.id === value);
+  // if (isError) notify.error(error || 'Failed to fetch fields');
+  let selectedField = '';
+  if (typeof value === 'string')
+    selectedField = fields.find(each => each.id === value);
 
   return <BaseFilter
     {...props}
     isLoading={isLoading}
     options={fields}
-    value={selectedField}
-    // getOptionValue={r => r?.id}
+    value={selectedField || value}
+  // getOptionValue={r => r?.id}
   />;
 }
 

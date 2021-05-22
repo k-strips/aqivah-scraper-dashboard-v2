@@ -107,6 +107,7 @@ function SourcesEdit() {
       isActive: true,
       selector: "",
       id: uuidv4(),
+      isRequired: false,
     }
     setFields({
       ids: [...fields.ids, newField.id],
@@ -115,7 +116,13 @@ function SourcesEdit() {
   }
 
   function updateField({id, field, value}) {
-    const updatedField = {...fields.values[id], [field]: value}
+    const updatedField = {
+      ...fields.values[id],
+      [field]: value,
+      isRequired:
+        field === "field" ? value.isRequired : field.values[id].isRequired,
+    }
+
     setFields({
       ids: fields.ids,
       values: {...fields.values, [id]: updatedField},
@@ -220,82 +227,96 @@ function SourcesEdit() {
               </Button>
             </div>
           </Card.Title>
-          <div id="field-headers">
+          {/* <div id="field-headers">
             <Row>
               <Col md="3">Field</Col>
               <Col md="3">Field Type</Col>
               <Col md="3">Query Selector</Col>
               <Col md="3">Is Active</Col>
-              {/* <Col md="3">Is Required</Col> */}
+              <Col md="3">Is Required</Col>
             </Row>
-          </div>
+          </div> */}
           {fields?.ids.map(field => {
             const id = field
             const each = fields?.values[field]
             return (
-              <Row style={{marginBottom: "10px"}}>
-                <Col md="3">
-                  <div className="hidden-field-headers">Field</div>
-                  <FieldFilter
-                    value={each?.FieldId}
-                    onChange={value => {
-                      const field = "field"
-                      updateField({id, field, value})
-                    }}
-                  />
-                </Col>
-                <Col md="3">
-                  <div className="hidden-field-headers">Field Type</div>
-                  <FieldTypeSelect
-                    value={each?.typeId}
-                    onChange={value => {
-                      const field = "type"
-                      updateField({id, field, value})
-                    }}
-                  />
-                </Col>
-                <Col md="3">
-                  <div className="hidden-field-headers">Query Selector</div>
-                  <Form.Control
-                    value={each?.selector}
-                    onChange={e => {
-                      const field = "selector"
-                      const value = e.target.value
-                      updateField({id, field, value})
-                    }}
-                  />
-                </Col>
-                <Col md="3">
-                  <div className="hidden-field-headers">Is Active</div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Form.Check
-                      checked={each?.isActive}
-                      onChange={() => {
-                        const field = "isActive"
-                        const value = !each.isActive
-
+              <>
+                <Row style={{marginBottom: "10px"}}>
+                  <Col md="3">
+                    <div className="hidden-field-headers">Field</div>
+                    <FieldFilter
+                      value={each?.FieldId}
+                      onChange={value => {
+                        const field = "field"
                         updateField({id, field, value})
                       }}
                     />
-                    <Button
-                      variant="danger"
-                      onClick={() => removeField(each.id)}
+                  </Col>
+                  <Col md="3">
+                    <div className="hidden-field-headers">Field Type</div>
+                    <FieldTypeSelect
+                      value={each?.typeId}
+                      onChange={value => {
+                        const field = "type"
+                        updateField({id, field, value})
+                      }}
+                    />
+                  </Col>
+                  <Col md="3">
+                    <div className="hidden-field-headers">Query Selector</div>
+                    <Form.Control
+                      value={each?.selector}
+                      onChange={e => {
+                        const field = "selector"
+                        const value = e.target.value
+                        updateField({id, field, value})
+                      }}
+                    />
+                  </Col>
+                  <Col md="3">
+                    <div className="hidden-field-headers">Is Active</div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
                     >
-                      x
-                    </Button>
-                  </div>
-                </Col>
-                {/* <Col md="3">
-                  <div className="hidden-field-headers">Is Required</div>
-                  <Form.Check />
-                </Col> */}
-              </Row>
+                      <Form.Check
+                        checked={each?.isActive}
+                        onChange={() => {
+                          const field = "isActive"
+                          const value = !each.isActive
+
+                          updateField({id, field, value})
+                        }}
+                      />
+                      {!each?.isRequired ? (
+                        <Button
+                          variant="danger"
+                          onClick={() => removeField(each.id)}
+                        >
+                          x
+                        </Button>
+                      ) : null}
+                    </div>
+                  </Col>
+                </Row>
+                <Row style={{marginBottom: "30px"}}>
+                  <Col md="3">
+                    <div>Default Value</div>
+                    <Form.Control
+                      value={each?.defaultValue}
+                      onChange={e => {
+                        const value = e.target.value
+                        const field = "defaultValue"
+                        updateField({id, field, value})
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <hr />
+              </>
             )
           })}
 
@@ -307,11 +328,6 @@ function SourcesEdit() {
         </Card.Body>
       </Card>
       <style jsx>{`
-        .hidden-field-headers {
-          display: none;
-          // color: white;
-        }
-
         @media screen and (max-width: 500px) {
           .hidden-field-headers {
             display: block;

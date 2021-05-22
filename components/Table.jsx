@@ -74,67 +74,50 @@ function CustomTable({
   )
 }
 
-function TableRow({records = {}, record = 2, columns = {}}) {
+function TableRow({records = {}, record = 2, columns = {}, key}) {
   const {showExtraInfo = false} = records.values[record] || {}
   const {ExtraInfo = () => null} = columns.values
 
   return (
-    <>
-      <tr>
-        {columns?.ids?.map(each => {
-          const {
-            getValue = record => {
-              if (record) return record[each]
-              return null
-            },
-          } = columns?.values[each] || {}
+    <tr key={key}>
+      {columns?.ids?.map(each => {
+        const {
+          getValue = record => {
+            if (record) return record[each]
+            return null
+          },
+        } = columns?.values[each] || {}
 
-          const displayValue = getValue(records?.values[record])
+        const displayValue = getValue(records?.values[record])
 
-          if (typeof displayValue === "string") {
-          }
+        if (typeof displayValue === "string") {
+        }
 
-          return (
-            <>
-              {typeof displayValue === "string" ? (
-                <td
-                  key={each}
-                  // onClick={() => alert(displayValue)}
-                  style={{maxWidth: "200px", wordWrap: "break-word"}}
-                >
-                  {displayValue}
-                  {displayValue?.length > 100 && `...`}
-                </td>
-              ) : (
-                <td
-                  key={each}
-                  style={{maxWidth: "200px", wordWrap: "break-word"}}
-                >
-                  {displayValue}
-                  {displayValue?.length > 100 && `...`}
-                </td>
-              )}
-              {/* {getValue(records?.values[record])} */}
-            </>
-          )
-        })}
-      </tr>
-      {/* {showExtraInfo && (
-        <Content
-          style={{
-            position: "fixed",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            width: "80%",
-            padding: "20px",
-            boxShadow: "-11px 1px 24px -5px rgba(0,0,0,0.49)",
-          }}
-        >
-          <ExtraInfo record={record} />
-        </Content>
-      )} */}
-    </>
+        return (
+          <>
+            {typeof displayValue === "string" ? (
+              <td
+                key={each}
+                // onClick={() => alert(displayValue)}
+                style={{maxWidth: "200px", wordWrap: "break-word"}}
+              >
+                {displayValue}
+                {displayValue?.length > 100 && `...`}
+              </td>
+            ) : (
+              <td
+                key={each}
+                style={{maxWidth: "200px", wordWrap: "break-word"}}
+              >
+                {displayValue}
+                {displayValue?.length > 100 && `...`}
+              </td>
+            )}
+            {/* {getValue(records?.values[record])} */}
+          </>
+        )
+      })}
+    </tr>
   )
 }
 

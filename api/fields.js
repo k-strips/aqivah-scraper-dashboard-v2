@@ -2,9 +2,9 @@ const { default: base } = require("./base");
 const { returnResponseOrError } = require("./helpers");
 
 
-function list() {
+function list({ required } = {}) {
   return base
-    .get('/fields')
+    .get('/fields', { required })
     .then(returnResponseOrError)
     .catch(e => { throw e; });
 }

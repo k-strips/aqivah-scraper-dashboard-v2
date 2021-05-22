@@ -160,85 +160,70 @@ function SourcesView() {
               </Button> */}
             </div>
           </Card.Title>
-          <div id="field-headers">
+          {/* <div id="field-headers">
             <Row>
               <Col md="3">Field</Col>
               <Col md="3">Field Type</Col>
               <Col md="3">Query Selector</Col>
               <Col md="3">Is Active</Col>
-              {/* <Col md="3">Is Required</Col> */}
+              <Col md="3">Is Required</Col>
             </Row>
-          </div>
+          </div> */}
           {fields?.ids.map(field => {
             // const id = field
             const each = fields?.values[field]
             return (
-              <Row style={{marginBottom: "10px"}}>
-                <Col md="3">
-                  <div className="hidden-field-headers">Field</div>
-                  <FieldFilter
-                    value={each?.FieldId}
-                    isDisabled
-                    // onChange={value => {
-                    //   const field = "field"
-                    //   updateField({id, field, value})
-                    // }}
-                  />
-                </Col>
-                <Col md="3">
-                  <div className="hidden-field-headers">Field Type</div>
-                  <FieldTypeSelect
-                    value={each?.typeId}
-                    isDisabled
-                    // onChange={value => {
-                    //   const field = "type"
-                    //   updateField({id, field, value})
-                    // }}
-                  />
-                </Col>
-                <Col md="3">
-                  <div className="hidden-field-headers">Query Selector</div>
-                  <Form.Control
-                    value={each?.selector}
-                    disabled
-                    // onChange={e => {
-                    //   const field = "selector"
-                    //   const value = e.target.value
-                    //   updateField({id, field, value})
-                    // }}
-                  />
-                </Col>
-                <Col md="3">
-                  <div className="hidden-field-headers">Is Active</div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Form.Check
-                      checked={each?.isActive}
-                      // onChange={() => {
-                      //   const field = "isActive"
-                      //   const value = !each.isActive
-
+              <>
+                <Row style={{marginBottom: "10px"}}>
+                  <Col md="3">
+                    <div className="hidden-field-headers">Field</div>
+                    <FieldFilter
+                      value={each?.FieldId}
+                      isDisabled
+                      // onChange={value => {
+                      //   const field = "field"
                       //   updateField({id, field, value})
                       // }}
                     />
-                    {/* <Button
-                      variant="danger"
-                      onClick={() => removeField(each.id)}
+                  </Col>
+                  <Col md="3">
+                    <div className="hidden-field-headers">Field Type</div>
+                    <FieldTypeSelect
+                      value={each?.typeId}
+                      isDisabled
+                      // onChange={value => {
+                      //   const field = "type"
+                      //   updateField({id, field, value})
+                      // }}
+                    />
+                  </Col>
+                  <Col md="3">
+                    <div className="hidden-field-headers">Query Selector</div>
+                    <Form.Control value={each?.selector} disabled />
+                  </Col>
+                  <Col md="3">
+                    <div className="hidden-field-headers">Is Active</div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
                     >
-                      x
-                    </Button> */}
-                  </div>
-                </Col>
-                {/* <Col md="3">
-                  <div className="hidden-field-headers">Is Required</div>
-                  <Form.Check />
-                </Col> */}
-              </Row>
+                      <Form.Check
+                        checked={each?.isActive}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <Row style={{marginBottom: "30px"}}>
+                  <Col md="3">
+                    <div>Default Value</div>
+                    <Form.Control value={each?.defaultValue} disabled />
+                  </Col>
+                </Row>
+                <hr />
+              </>
             )
           })}
 
@@ -251,7 +236,7 @@ function SourcesView() {
       </Card>
       <style jsx>{`
         .hidden-field-headers {
-          display: none;
+          /* display: none; */
           // color: white;
         }
 

@@ -23,12 +23,14 @@ function FieldTypeSelect({ value, ...props }) {
 
   useEffect(() => { fetchFieldTypes(); }, []);
 
-  const selectedValue = options.find(each => each.id === value);
+  let selectedValue = '';
+  if (typeof value === 'string')
+    selectedValue = options.find(each => each.id === value);
 
   return <BaseFilter
     {...props}
     options={options}
-    value={selectedValue}
+    value={selectedValue || value}
     isLoading={isLoading}
   />;
 }
