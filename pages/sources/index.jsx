@@ -24,12 +24,20 @@ async function fetchSources({setSources, showLoader, hideLoader, notify}) {
   }
 }
 
-async function deleteSource({showLoader, hideLoader, notify, id, setSources}) {
+async function deleteSource({
+  showLoader,
+  hideLoader,
+  notify,
+  id,
+  setSources,
+  setShowDeleteModal,
+}) {
   try {
     showLoader()
     await SourcesApi.remove(id)
     notify.success()
     fetchSources({showLoader, hideLoader, setSources, notify})
+    setShowDeleteModal(false)
   } catch (error) {
     notify.error("Unable to delete source")
     console.error("failed to delete source -> ", error)
@@ -138,8 +146,8 @@ function Sources() {
           <Button
             variant="dark"
             onClick={() => {
-              setShowDeleteModal(false);
-              setSourceToDelete();
+              setShowDeleteModal(false)
+              setSourceToDelete()
             }}
           >
             Cancel
@@ -153,6 +161,7 @@ function Sources() {
                 notify,
                 setSources,
                 id: sourceToDelete?.id,
+                setShowDeleteModal,
               })
             }}
           >

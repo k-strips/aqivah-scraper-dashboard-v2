@@ -22,15 +22,16 @@ async function create({showLoader, hideLoader, notify, source, fields}) {
         field: {id: name},
         type,
         selector: querySelector,
+        defaultValue,
       } = each
 
-      debugger;
       return {
         type,
         name,
         querySelector,
         isActive,
         isRequired,
+        defaultValue,
       }
     })
     source.paginationType = source.paginationType.value
