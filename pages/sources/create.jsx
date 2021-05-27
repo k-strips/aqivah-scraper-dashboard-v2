@@ -16,11 +16,21 @@ async function create({showLoader, hideLoader, notify, source, fields}) {
   try {
     showLoader()
     const fieldValues = Object.values(fields.values).map(each => {
+      const {
+        isRequired,
+        isActive,
+        field: {id: name},
+        type,
+        selector: querySelector,
+      } = each
+
+      debugger;
       return {
-        type: each?.type?.id,
-        name: each?.field?.id,
-        querySelector: each?.selector,
-        isActive: each?.isActive,
+        type,
+        name,
+        querySelector,
+        isActive,
+        isRequired,
       }
     })
     source.paginationType = source.paginationType.value
@@ -86,7 +96,7 @@ function SourcesCreate() {
   const [source, setSource] = useState({
     label: "",
     url: "",
-    isActive: "",
+    isActive: false,
     paginationType: "",
     singlePropertyQuerySelector: "",
     clickPaginationSelector: "",
@@ -103,6 +113,7 @@ function SourcesCreate() {
         id: 0,
         field: "this is the culprit",
         defaultValue: "",
+        isRequired: true,
       },
     },
   })
@@ -257,8 +268,8 @@ function SourcesCreate() {
               </Row>
             </div> */}
             {fields.ids.map(id => {
-              const each = fields.values[id];
-              console.log('within each -> ', each);
+              const each = fields.values[id]
+              console.log("within each -> ", each)
 
               return (
                 <>
@@ -268,7 +279,10 @@ function SourcesCreate() {
                       <FieldFilter
                         value={each?.field}
                         onChange={value => {
-                          console.log('value that gets set as fiefld -> ', value);
+                          console.log(
+                            "value that gets set as fiefld -> ",
+                            value
+                          )
                           const field = "field"
                           updateField({id, field, value})
                         }}

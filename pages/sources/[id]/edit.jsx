@@ -78,6 +78,7 @@ async function save({source, fields, showLoader, hideLoader, notify, id}) {
   }
 }
 
+
 function SourcesEdit() {
   const router = useRouter()
   const {id} = router.query
@@ -108,6 +109,7 @@ function SourcesEdit() {
       selector: "",
       id: uuidv4(),
       isRequired: false,
+      field: null,
     }
     setFields({
       ids: [...fields.ids, newField.id],
@@ -120,7 +122,7 @@ function SourcesEdit() {
       ...fields.values[id],
       [field]: value,
       isRequired:
-        field === "field" ? value.isRequired : field.values[id].isRequired,
+        field === "field" ? value.isRequired : fields.values[id].isRequired,
     }
 
     setFields({
