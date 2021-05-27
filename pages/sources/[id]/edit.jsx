@@ -35,7 +35,7 @@ async function getSource({
     const formattedFields = {
       ids: SourceFields.map(each => each?.id),
       values: SourceFields.reduce((final, each) => {
-        final[each?.id] = each
+        final[each?.id] = {...each, type: each?.typeId}
         return final
       }, {}),
     }
@@ -62,6 +62,7 @@ async function save({source, fields, showLoader, hideLoader, notify, id}) {
         isActive: value?.isActive,
         selector: value?.selector,
         id: each.toString(),
+        defaultValue: value?.defaultValue,
       }
     })
     await SourcesApi.update({
@@ -77,7 +78,6 @@ async function save({source, fields, showLoader, hideLoader, notify, id}) {
     hideLoader()
   }
 }
-
 
 function SourcesEdit() {
   const router = useRouter()
@@ -257,8 +257,9 @@ function SourcesEdit() {
                   <Col md="3">
                     <div className="hidden-field-headers">Field Type</div>
                     <FieldTypeSelect
-                      value={each?.typeId}
+                      value={each?.typeId || each?.type}
                       onChange={value => {
+                        console.log("incomign value -> ", value)
                         const field = "type"
                         updateField({id, field, value})
                       }}

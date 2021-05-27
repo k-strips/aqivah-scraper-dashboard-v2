@@ -24,6 +24,7 @@ function FieldTypeSelect({ value, ...props }) {
   useEffect(() => { fetchFieldTypes(); }, []);
 
   let selectedValue = '';
+  console.log('current value -> ', value);
   if (typeof value === 'string')
     selectedValue = options.find(each => each.id === value);
 
