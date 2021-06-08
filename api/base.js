@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:5000";
+axios.defaults.baseURL =  "http://localhost:5000";
 
 const api = (method, url, variables) =>
   new Promise((resolve, reject) => {
