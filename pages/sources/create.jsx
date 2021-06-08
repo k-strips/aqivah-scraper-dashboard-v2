@@ -373,14 +373,12 @@ function SourcesCreate() {
         </Card>
       </DashboardLayout>
       <style jsx>{`
-        .hidden-field-headers {
-          /* display: none; */
-          // color: white;
-        }
 
         .help-text {
           font-size: 12px;
           opacity: 0.7;
+          margin-right: 10px;
+          display: block;
         }
 
         @media screen and (max-width: 500px) {
