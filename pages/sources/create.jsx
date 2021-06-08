@@ -229,7 +229,10 @@ function SourcesCreate() {
             ) : null}
 
             <Form.Group>
-              <Form.Label>Single Property Query Selector</Form.Label>
+              <Form.Label>
+                Single Property Query Selector
+                <span className="help-text">(must be an anchor tag)</span>
+              </Form.Label>
               <Form.Control
                 value={source.singlePropertyQuerySelector}
                 onChange={e =>
@@ -373,6 +376,11 @@ function SourcesCreate() {
         .hidden-field-headers {
           /* display: none; */
           // color: white;
+        }
+
+        .help-text {
+          font-size: 12px;
+          opacity: 0.7;
         }
 
         @media screen and (max-width: 500px) {
