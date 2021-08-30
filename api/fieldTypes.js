@@ -1,33 +1,49 @@
-import base from 'api/base';
-import { returnResponseOrError } from './helpers';
-
+import base from "api/base";
+import { returnResponseOrError } from "./helpers";
 
 function list() {
   return base
-    .get('/field-types')
+    .get("/field-types")
     .then(returnResponseOrError)
-    .catch(e => { throw e; });
+    .catch((e) => {
+      throw e;
+    });
 }
 
 function get(id) {
   return base
     .get(`/field-types/${id}`)
     .then(returnResponseOrError)
-    .catch(e => { throw e; });
+    .catch((e) => {
+      throw e;
+    });
 }
 
 function create({ label }) {
   return base
-    .post('/field-types', { label })
+    .post("/field-types", { label })
     .then(returnResponseOrError)
-    .catch(e => { throw e; });
+    .catch((e) => {
+      throw e;
+    });
 }
 
 function update({ label, id }) {
   return base
     .patch(`/field-types/${id}`, { label })
     .then(returnResponseOrError)
-    .catch(e => { throw e; });
+    .catch((e) => {
+      throw e;
+    });
+}
+
+function deleteOne(id) {
+  return base
+    .delete(`/field-types/${id}`)
+    .then(returnResponseOrError)
+    .catch((e) => {
+      throw e;
+    });
 }
 
 export default {
@@ -35,4 +51,5 @@ export default {
   get,
   create,
   update,
+  deleteOne,
 };
