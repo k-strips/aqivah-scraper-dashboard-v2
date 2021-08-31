@@ -8,53 +8,9 @@ import useLoader from "hooks/useLoader";
 import useNotifier from "hooks/useToast";
 import { useEffect, useState } from "react";
 
-const columns = {
-  ids: ["id", "label", "createdAt", "isAqivahField", "isRequired", "actions"],
-  values: {
-    id: {
-      key: "id",
-      label: "ID",
-    },
-    label: { key: "label", label: "Name" },
-    createdAt: { key: "createdAt", label: "Created" },
-    isAqivahField: {
-      id: "isAqivahField",
-      label: "Is Aqivah Field",
-      getValue: (record) => record?.isAqivahField.toString(),
-    },
-    isRequired: {
-      id: "isRequired",
-      label: "Is Required",
-      getValue: (record) => (record?.isRequired ? "True" : "False"),
-    },
-    actions: {
-      id: "actions",
-      label: "Actions",
-      getValue: (record) => (
-        <FieldActions
-          onClickView={(router) => {
-            router.push(`/fields/${record?.id}`);
-          }}
-          onClickEdit={(router) => {
-            router.push(`/fields/${record.id}/edit`);
-          }}
-          onClickDelete={(router) => {
-            deleteField(record.id, router);
-          }}
-        />
-      ),
-    },
-  },
-};
-
-async function deleteField(
-  id,
-  router,
-  notify = { error: (msg) => alert(msg) }
-) {
+async function deleteField(id, notify = { error: (msg) => alert(msg) }) {
   try {
     await FieldsApi.deleteOne(id);
-    router.reload(window.location.pathname);
   } catch (error) {
     notify.error("Failed to delete field type");
   }
@@ -81,6 +37,48 @@ function Fields() {
   useEffect(() => {
     fetchFields({ showLoader, hideLoader, notify, setFields });
   }, []);
+
+  const columns = {
+    ids: ["id", "label", "createdAt", "isAqivahField", "isRequired", "actions"],
+    values: {
+      id: {
+        key: "id",
+        label: "ID",
+      },
+      label: { key: "label", label: "Name" },
+      createdAt: { key: "createdAt", label: "Created" },
+      isAqivahField: {
+        id: "isAqivahField",
+        label: "Is Aqivah Field",
+        getValue: (record) => record?.isAqivahField.toString(),
+      },
+      isRequired: {
+        id: "isRequired",
+        label: "Is Required",
+        getValue: (record) => (record?.isRequired ? "True" : "False"),
+      },
+      actions: {
+        id: "actions",
+        label: "Actions",
+        getValue: (record) => (
+          <FieldActions
+            onClickView={(router) => {
+              router.push(`/fields/${record?.id}`);
+            }}
+            onClickEdit={(router) => {
+              router.push(`/fields/${record.id}/edit`);
+            }}
+            onClickDelete={async () => {
+              deleteField(record.id);
+              const response = await FieldsApi.list();
+              setFields(augmentResponseForTable(response));
+              fetchFields({ showLoader, hideLoader, notify, setFields });
+            }}
+          />
+        ),
+      },
+    },
+  };
 
   return (
     <DashboardLayout

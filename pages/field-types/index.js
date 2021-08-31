@@ -7,49 +7,9 @@ import useLoader from "hooks/useLoader";
 import { FieldActions } from "@components/Table";
 import HeadingWithButton from "@components/HeadingWithButton";
 
-const columns = {
-  ids: ["id", "label", "createdAt", "actions"],
-  values: {
-    id: {
-      key: "id",
-      label: "ID",
-    },
-    label: {
-      key: "label",
-      label: "Name",
-    },
-    createdAt: {
-      key: "createdAt",
-      label: "Created",
-    },
-    actions: {
-      key: "actions",
-      label: "Actions",
-      getValue: (record) => (
-        <FieldActions
-          onClickView={(router) => {
-            router.push(`/field-types/${record?.id}`);
-          }}
-          onClickEdit={(router) => {
-            router.push(`/field-types/${record.id}/edit`);
-          }}
-          onClickDelete={(router) => {
-            deleteFieldType(record.id, router);
-          }}
-        />
-      ),
-    },
-  },
-};
-
-async function deleteFieldType(
-  id,
-  router,
-  notify = { error: (msg) => alert(msg) }
-) {
+async function deleteFieldType(id, notify = { error: (msg) => alert(msg) }) {
   try {
     await FieldTypesApi.deleteOne(id);
-    router.reload(window.location.pathname);
   } catch (error) {
     notify.error("Failed to delete field type");
   }
@@ -81,6 +41,44 @@ function FieldTypes() {
   useEffect(() => {
     fetchFieldTypes({ showLoader, hideLoader, setFieldTypes });
   }, []);
+
+  const columns = {
+    ids: ["id", "label", "createdAt", "actions"],
+    values: {
+      id: {
+        key: "id",
+        label: "ID",
+      },
+      label: {
+        key: "label",
+        label: "Name",
+      },
+      createdAt: {
+        key: "createdAt",
+        label: "Created",
+      },
+      actions: {
+        key: "actions",
+        label: "Actions",
+        getValue: (record) => (
+          <FieldActions
+            onClickView={(router) => {
+              router.push(`/field-types/${record?.id}`);
+            }}
+            onClickEdit={(router) => {
+              router.push(`/field-types/${record.id}/edit`);
+            }}
+            onClickDelete={async () => {
+              deleteFieldType(record.id);
+              const response = await FieldTypesApi.list();
+              setFieldTypes(augmentResponseForTable(response));
+              fetchFieldTypes({ showLoader, hideLoader, setFieldTypes });
+            }}
+          />
+        ),
+      },
+    },
+  };
 
   return (
     <DashboardLayout
