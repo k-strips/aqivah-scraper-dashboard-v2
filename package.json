@@ -11,15 +11,18 @@
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
+    "autoprefixer": "^10.3.3",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "next": "10.0.9",
+    "postcss": "^8.3.6",
     "react": "17.0.1",
     "react-bootstrap": "^1.5.2",
     "react-dom": "17.0.1",
     "react-feather": "^2.0.9",
     "react-select": "^4.3.0",
     "react-toastify": "^7.0.3",
+    "tailwindcss": "^2.2.9",
     "uuid": "^8.3.2"
   }
 }

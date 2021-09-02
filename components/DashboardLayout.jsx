@@ -12,6 +12,7 @@ const Sidebar = ({selected = {}, isInMobileView = true}) => {
 
   return (
     <div
+    className="bg-black"
       style={{width: "100%", height: "100%", borderRight: "1px solid black"}}
     >
       {isInMobileView ? (
