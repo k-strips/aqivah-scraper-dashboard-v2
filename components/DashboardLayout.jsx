@@ -48,13 +48,13 @@ const DashboardLayout = (props) => {
   const isInMobileView = width < MAX_MOBILE_VIEW_WIDTH;
 
   return (
-    <div className="flex flex-col md:flex-row w-full min-h-screen">
-      <div className="w-screen md:w-20vw">
+    <div className="md:grid md:grid-cols-10 w-full min-h-screen">
+      <div className="md:col-span-2">
         <Sidebar isInMobileView={isInMobileView} />
       </div>
 
-      <div className="p-2 overflow-x-scroll">
-          <div className="text-right pt-7 pr-7 hidden md:block">Logout</div>
+      <div className="p-2 overflow-x-scroll md:col-span-8">
+        <div className="text-right pt-7 pr-7 hidden md:block">Logout</div>
 
         <div className="flex items-center justify-start w-screen md:w-80vw">
           {hideBackButton ? null : <BackButton />}

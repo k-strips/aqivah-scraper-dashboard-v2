@@ -1,6 +1,7 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://aqivah-scraper-api-server.herokuapp.com/";
+axios.defaults.baseURL = "http://3.135.45.57:5000";
+// axios.defaults.baseURL = "https://aqivah-scraper-api-server.herokuapp.com/";
 
 const api = (method, url, variables) =>
   new Promise((resolve, reject) => {

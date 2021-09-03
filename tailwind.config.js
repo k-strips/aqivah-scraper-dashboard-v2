@@ -7,6 +7,9 @@ module.exports = {
         "80vw": "80vw",
         "20vw": "20vw",
       },
+      minWidth: {
+        "20vw": "20vw",
+      },
       zIndex: {
         100: "100",
       },

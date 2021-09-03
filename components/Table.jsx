@@ -83,7 +83,17 @@ function TableRow({records = {}, record = 2, columns = {}, key}) {
       {columns?.ids?.map(each => {
         const {
           getValue = record => {
-            if (record) return record[each]
+            
+            if (record) {
+              const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+              
+              record.createdAt = new Date(record.createdAt).toLocaleDateString('en-US', options);
+              record.updatedAt = new Date(record.updatedAt).toLocaleDateString('en-US', options);
+              record.lastScrapedTime = new Date(record.lastScrapedTime).toLocaleDateString('en-US', options);
+              record.endedAt = new Date(record.endedAt).toLocaleDateString('en-US', options);
+              return record[each];
+            } 
+            
             return null
           },
         } = columns?.values[each] || {}
