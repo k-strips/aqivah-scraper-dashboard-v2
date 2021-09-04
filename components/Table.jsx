@@ -41,13 +41,7 @@ function CustomTable({
   records = {ids: [], values: {}},
 }) {
   // console.log(records)
-  let recordIsEmpty;
-  if (records.ids.length === 0) {
-    recordIsEmpty = true;
-  } else {
-    recordIsEmpty = false
-  }
-  
+ 
   const showRecords = records.ids.map(record => {
     return (
       <TableRow
@@ -76,10 +70,10 @@ function CustomTable({
           </tr>
         </thead>
         <tbody>
-          {recordIsEmpty ? null : showRecords}
+          {records.ids.length === 0 ? null : showRecords}
         </tbody>
       </Table>
-      {recordIsEmpty ? <NoRecords/> : null}
+      {records.ids.length === 0 ? <NoRecords/> : null}
     </>
   )
 }
