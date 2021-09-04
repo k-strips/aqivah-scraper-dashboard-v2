@@ -40,7 +40,25 @@ function CustomTable({
   columns = {ids: [], values: {}},
   records = {ids: [], values: {}},
 }) {
-  // console.log(columns)
+  // console.log(records)
+  let recordIsEmpty;
+  if (records.ids.length === 0) {
+    recordIsEmpty = true;
+  } else {
+    recordIsEmpty = false
+  }
+  
+  const showRecords = records.ids.map(record => {
+    return (
+      <TableRow
+        key={record}
+        records={records}
+        record={record}
+        columns={columns}
+      />
+    )
+  });
+  
   return (
     <>
       <Table
@@ -58,18 +76,10 @@ function CustomTable({
           </tr>
         </thead>
         <tbody>
-          {records.ids.map(record => {
-            return (
-              <TableRow
-                key={record}
-                records={records}
-                record={record}
-                columns={columns}
-              />
-            )
-          })}
+          {recordIsEmpty ? null : showRecords}
         </tbody>
       </Table>
+      {recordIsEmpty ? <NoRecords/> : null}
     </>
   )
 }
@@ -128,6 +138,12 @@ function TableRow({records = {}, record = 2, columns = {}, key}) {
         )
       })}
     </tr>
+  )
+}
+
+function NoRecords() {
+  return (
+   <div className="text-center text-xl pt-10">No records to show 😢</div>
   )
 }
 
