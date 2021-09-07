@@ -1,9 +1,9 @@
 const { default: base } = require("./base");
 const { returnResponseOrError } = require("./helpers");
 
-function list({ required } = {}) {
+function list({ required } = {}, limit) {
   return base
-    .get("/fields", { required })
+    .get(`/fields?limit=${limit}`, { required })
     .then(returnResponseOrError)
     .catch((e) => {
       throw e;

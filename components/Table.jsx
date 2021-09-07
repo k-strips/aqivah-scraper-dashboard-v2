@@ -45,7 +45,6 @@ function CustomTable({
   const showRecords = records.ids.map(record => {
     return (
       <TableRow
-        key={record}
         records={records}
         record={record}
         columns={columns}
@@ -78,12 +77,12 @@ function CustomTable({
   )
 }
 
-function TableRow({records = {}, record = 2, columns = {}, key}) {
+function TableRow({records = {}, record = 2, columns = {}}) {
   const {showExtraInfo = false} = records.values[record] || {}
   const {ExtraInfo = () => null} = columns.values
 
   return (
-    <tr key={key}>
+    <tr>
       {columns?.ids?.map(each => {
         const {
           getValue = record => {
