@@ -2,6 +2,7 @@ import {FieldActions} from "@components/Table"
 import {augmentResponseForTable} from "api/helpers"
 import Modal from "react-bootstrap/Modal"
 import {Button} from "react-bootstrap"
+import PrevNextButtons from "@components/PrevNextButtons";
 const {default: DashboardLayout} = require("@components/DashboardLayout")
 const {default: HeadingWithButton} = require("@components/HeadingWithButton")
 const {default: CustomTable} = require("@components/Table")
@@ -10,11 +11,15 @@ const {default: useNotifier} = require("hooks/useToast")
 const {useState, useEffect} = require("react")
 const {default: SourcesApi} = require("api/sources")
 
+let currentPage;
+let maxPage;
+
 async function fetchSources({setSources, showLoader, hideLoader, notify}) {
   try {
     showLoader()
     const response = await SourcesApi.list()
-    console.log("response -> ", response)
+    currentPage = response.page;
+    maxPage = Math.ceil(response.totalResults / response.perPage);
     setSources(augmentResponseForTable(response))
   } catch (error) {
     notify.error("Failed to fetch sources")
@@ -45,6 +50,24 @@ async function deleteSource({
     hideLoader()
   }
 }
+
+const nextPage = async () => {
+  if (currentPage < maxPage) {
+    const page = currentPage + 1;
+    currentPage = page;
+    const response = await SourcesApi.list(page);
+    setFields(augmentResponseForTable(response));
+  }
+};
+
+const prevPage = async () => {
+  if (currentPage > 1) {
+    const page = currentPage - 1;
+    currentPage = page;
+    const response = await SourcesApi.list(page);
+    setFields(augmentResponseForTable(response));
+  }
+};
 
 function Sources() {
   const [sources, setSources] = useState({ids: [], values: {}})
@@ -170,6 +193,12 @@ function Sources() {
         </Modal.Footer>
       </Modal>
       <CustomTable columns={columns} records={sources} />
+      <PrevNextButtons
+        prevPage={prevPage}
+        nextPage={nextPage}
+        currentPage={currentPage}
+        maxPage={maxPage}
+      />
     </DashboardLayout>
   )
 }

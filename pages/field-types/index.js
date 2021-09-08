@@ -1,11 +1,15 @@
 import DashboardLayout from "@components/DashboardLayout";
 import CustomTable from "@components/Table";
 import { useEffect, useState } from "react";
+import PrevNextButtons from "@components/PrevNextButtons";
 import FieldTypesApi from "api/fieldTypes";
 import { augmentResponseForTable } from "api/helpers";
 import useLoader from "hooks/useLoader";
 import { FieldActions } from "@components/Table";
 import HeadingWithButton from "@components/HeadingWithButton";
+
+let currentPage;
+let maxPage;
 
 async function deleteFieldType(id, notify = { error: (msg) => alert(msg) }) {
   try {
@@ -24,7 +28,8 @@ async function fetchFieldTypes({
   try {
     showLoader();
     const response = await FieldTypesApi.list();
-    console.log("field types -> ", response);
+    currentPage = response.page;
+    maxPage = Math.ceil(response.totalResults / response.perPage);
     setFieldTypes(augmentResponseForTable(response));
   } catch (error) {
     console.error("failed to fetch field types -> ", error);
@@ -80,6 +85,24 @@ function FieldTypes() {
     },
   };
 
+  const nextPage = async () => {
+    if (currentPage < maxPage) {
+      const page = currentPage + 1;
+      currentPage = page;
+      const response = await FieldTypesApi.list(page);
+      setFieldTypes(augmentResponseForTable(response));
+    }
+  };
+
+  const prevPage = async () => {
+    if (currentPage > 1) {
+      const page = currentPage - 1;
+      currentPage = page;
+      const response = await FieldTypesApi.list(...Array(2), page);
+      setFieldTypes(augmentResponseForTable(response));
+    }
+  };
+
   return (
     <DashboardLayout
       heading={
@@ -92,6 +115,12 @@ function FieldTypes() {
       hideBackButton
     >
       <CustomTable columns={columns} records={fieldTypes} />
+      <PrevNextButtons
+        prevPage={prevPage}
+        nextPage={nextPage}
+        currentPage={currentPage}
+        maxPage={maxPage}
+      />
     </DashboardLayout>
   );
 }

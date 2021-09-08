@@ -1,12 +1,16 @@
 const { default: DashboardLayout } = require("@components/DashboardLayout");
 const { default: HeadingWithButton } = require("@components/HeadingWithButton");
 const { default: CustomTable } = require("@components/Table");
+import PrevNextButtons from "@components/PrevNextButtons";
 import { FieldActions } from "@components/Table";
 import FieldsApi from "api/fields";
 import { augmentResponseForTable } from "api/helpers";
 import useLoader from "hooks/useLoader";
 import useNotifier from "hooks/useToast";
 import { useEffect, useState } from "react";
+
+let currentPage;
+let maxPage;
 
 async function deleteField(id, notify = { error: (msg) => alert(msg) }) {
   try {
@@ -20,6 +24,8 @@ async function fetchFields({ showLoader, hideLoader, notify, setFields }) {
   try {
     showLoader();
     const response = await FieldsApi.list();
+    currentPage = response.page;
+    maxPage = Math.ceil(response.totalResults / response.perPage);
     setFields(augmentResponseForTable(response));
   } catch (error) {
     notify.error("Failed to fetch fields");
@@ -80,6 +86,24 @@ function Fields() {
     },
   };
 
+  const nextPage = async () => {
+    if (currentPage < maxPage) {
+      const page = currentPage + 1;
+      currentPage = page;
+      const response = await FieldsApi.list(...Array(2), page);
+      setFields(augmentResponseForTable(response));
+    }
+  };
+
+  const prevPage = async () => {
+    if (currentPage > 1) {
+      const page = currentPage - 1;
+      currentPage = page;
+      const response = await FieldsApi.list(...Array(2), page);
+      setFields(augmentResponseForTable(response));
+    }
+  };
+
   return (
     <DashboardLayout
       hideBackButton
@@ -92,6 +116,12 @@ function Fields() {
       }
     >
       <CustomTable columns={columns} records={fields} />
+      <PrevNextButtons
+        prevPage={prevPage}
+        nextPage={nextPage}
+        currentPage={currentPage}
+        maxPage={maxPage}
+      />
     </DashboardLayout>
   );
 }

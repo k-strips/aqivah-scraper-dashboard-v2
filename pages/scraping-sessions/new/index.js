@@ -2,11 +2,15 @@ import DashboardLayout from "@components/DashboardLayout";
 import Header from "@components/Header";
 import CustomTable from "@components/Table";
 import { FieldActions } from "@components/Table";
+import PrevNextButtons from "@components/PrevNextButtons";
 import { augmentResponseForTable } from "api/helpers";
 import scrapingSessions from "api/scrapingSessions";
 import useLoader from "hooks/useLoader";
 import { useEffect, useState } from "react";
 import { useToast } from "react-toastify";
+
+let currentPage;
+let maxPage;
 
 async function fetchScrapingSessions({
   notify,
@@ -17,6 +21,8 @@ async function fetchScrapingSessions({
   try {
     showLoader();
     const response = await scrapingSessions.list({ scraper: "NEW" });
+    currentPage = response.page;
+    maxPage = Math.ceil(response.totalResults / response.perPage);
     setScrapingSessions(augmentResponseForTable(response));
   } catch (error) {
     notify.error("Failed to fetch scraping sessions");
@@ -76,6 +82,24 @@ const columns = {
   },
 };
 
+const nextPage = async () => {
+  if (currentPage < maxPage) {
+    const page = currentPage + 1;
+    currentPage = page;
+    const response = await scrapingSessions.list(...Array(1), page);
+    setFields(augmentResponseForTable(response));
+  }
+};
+
+const prevPage = async () => {
+  if (currentPage > 1) {
+    const page = currentPage - 1;
+    currentPage = page;
+    const response = await scrapingSessions.list(...Array(1), page);
+    setFields(augmentResponseForTable(response));
+  }
+};
+
 function NewProperties() {
   // show the list of scraping sessions. with pagination
   const { showLoader, hideLoader } = useLoader();
@@ -100,6 +124,12 @@ function NewProperties() {
       hideBackButton
     >
       <CustomTable columns={columns} records={scrapingSessions} />
+      <PrevNextButtons
+        prevPage={prevPage}
+        nextPage={nextPage}
+        currentPage={currentPage}
+        maxPage={maxPage}
+      />
     </DashboardLayout>
   );
 }

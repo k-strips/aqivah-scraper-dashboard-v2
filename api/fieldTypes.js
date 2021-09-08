@@ -1,9 +1,9 @@
 import base from "api/base";
 import { returnResponseOrError } from "./helpers";
 
-function list() {
+function list(page = 1) {
   return base
-    .get("/field-types")
+    .get(`/field-types?page=${page}`)
     .then(returnResponseOrError)
     .catch((e) => {
       throw e;
