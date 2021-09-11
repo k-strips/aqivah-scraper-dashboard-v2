@@ -5,11 +5,11 @@ const PrevNextButtons = (props) => {
   >
     Prev
   </button>
-  const buttonPrevLimit =  <button
-  className="py-2 px-4 bg-gray-200 rounded font-bold mr-5 opacity-50"
+  const buttonPrevLimit =  <div
+  className="py-2 px-4 bg-gray-200 rounded font-bold mr-5 opacity-50 inline-block cursor-not-allowed"
 >
   Prev
-</button>
+</div>
   
     const buttonNext =  <button
     className="py-2 px-4 bg-gray-200 hover:bg-gray-300 rounded font-bold"
@@ -17,11 +17,11 @@ const PrevNextButtons = (props) => {
   >
     Next
   </button>
-   const buttonNextLimit =  <button
-   className="py-2 px-4 bg-gray-200 rounded font-bold mr-5 opacity-50"
+   const buttonNextLimit =  <div
+   className="py-2 px-4 bg-gray-200 rounded font-bold mr-5 opacity-50 inline-block cursor-not-allowed"
  >
    Next
- </button>
+ </div>
     
     return (
         <div className="text-center mt-3 mb-10">

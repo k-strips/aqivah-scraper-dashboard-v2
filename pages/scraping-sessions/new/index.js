@@ -7,7 +7,7 @@ import { augmentResponseForTable } from "api/helpers";
 import scrapingSessions from "api/scrapingSessions";
 import useLoader from "hooks/useLoader";
 import { useEffect, useState } from "react";
-import { useToast } from "react-toastify";
+const { default: useNotifier } = require("hooks/useToast");
 
 let currentPage;
 let maxPage;
@@ -103,7 +103,7 @@ const prevPage = async () => {
 function NewProperties() {
   // show the list of scraping sessions. with pagination
   const { showLoader, hideLoader } = useLoader();
-  const notify = { error: (msg) => alert(msg) };
+  const notify = useNotifier();
   const [scrapingSessions, setScrapingSessions] = useState({
     ids: [],
     values: {},

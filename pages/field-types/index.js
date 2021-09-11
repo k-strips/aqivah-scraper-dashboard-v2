@@ -7,6 +7,7 @@ import { augmentResponseForTable } from "api/helpers";
 import useLoader from "hooks/useLoader";
 import { FieldActions } from "@components/Table";
 import HeadingWithButton from "@components/HeadingWithButton";
+const { default: useNotifier } = require("hooks/useToast");
 
 let currentPage;
 let maxPage;
@@ -23,7 +24,7 @@ async function fetchFieldTypes({
   showLoader,
   hideLoader,
   setFieldTypes,
-  notify = { error: (msg) => alert(msg) },
+  notify = useNotifier(),
 }) {
   try {
     showLoader();
