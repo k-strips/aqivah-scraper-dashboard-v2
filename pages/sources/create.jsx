@@ -54,7 +54,7 @@ async function fetchRequiredFields({
 }) {
   try {
     showLoader()
-    const response = await FieldsApi.list({required: true})
+    const response = await FieldsApi.list({required: true}, 1000000)
     console.log("fetched required fields -> ", response)
     setRequiredFields(formatResponseForTable(response))
   } catch (error) {
