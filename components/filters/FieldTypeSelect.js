@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import BaseFilter from 'components/filters/BaseSelect';
-import FieldTypesApi from 'api/fieldTypes';
-import useNotifier from 'hooks/useToast';
+import React, { useEffect, useState } from "react";
+import BaseFilter from "components/filters/BaseSelect";
+import FieldTypesApi from "api/fieldTypes";
+import useNotifier from "hooks/useToast";
 
 function FieldTypeSelect({ value, ...props }) {
   const notify = useNotifier();
@@ -12,28 +12,32 @@ function FieldTypeSelect({ value, ...props }) {
     try {
       setIsLoading(true);
       const response = await FieldTypesApi.list();
-      setOptions(response);
+      setOptions(response.data);
     } catch (error) {
-      notify.error(error || 'Failed to fetch field types');
-      console.error('failed to fetch field types');
+      notify.error(error || "Failed to fetch field types");
+      console.error("failed to fetch field types");
     } finally {
       setIsLoading(false);
     }
   }
 
-  useEffect(() => { fetchFieldTypes(); }, []);
+  useEffect(() => {
+    fetchFieldTypes();
+  }, []);
 
-  let selectedValue = '';
-  console.log('current value -> ', value);
-  if (typeof value === 'string')
-    selectedValue = options.find(each => each.id === value);
+  let selectedValue = "";
+  console.log("current value -> ", value);
+  if (typeof value === "string")
+    selectedValue = options.find((each) => each.id === value);
 
-  return <BaseFilter
-    {...props}
-    options={options}
-    value={selectedValue || value}
-    isLoading={isLoading}
-  />;
+  return (
+    <BaseFilter
+      {...props}
+      options={options}
+      value={selectedValue || value}
+      isLoading={isLoading}
+    />
+  );
 }
 
 export default FieldTypeSelect;
