@@ -136,7 +136,7 @@ function TableRow({records = {}, record = 2, columns = {}}) {
 
 function NoRecords() {
   return (
-   <div className="text-center text-xl pt-10 mb-10">No records to show 😢</div>
+   <div className="text-center text-xl pt-10 mb-10">No records to show 🥺</div>
   )
 }
 

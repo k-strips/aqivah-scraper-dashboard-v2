@@ -6,6 +6,7 @@ import { Menu, X } from "react-feather";
 import BackButton from "./BackButton";
 import Heading from "./Header";
 import HeadingWithButton from "./HeadingWithButton";
+import ScraperInProgress from "@components/ScraperInProgress";
 
 const Sidebar = ({ selected = {}, isInMobileView = true }) => {
   const [expanded, setExpanded] = useState(false);
@@ -24,16 +25,16 @@ const Sidebar = ({ selected = {}, isInMobileView = true }) => {
 
       {expanded || !isInMobileView ? (
         <div
-          className="flex flex-col p-7 absolute md:relative bg-gray-100 w-full"
+          className="flex flex-col p-7 absolute md:relative bg-gray-100 w-full text-blue-400"
           onClick={() => {
             setExpanded(false);
           }}
         >
-          <Link href="/">Home</Link>
-          <Link href="/scraping-sessions/new">New Scraping-sessions</Link>
-          <Link href="/field-types">Field Types</Link>
-          <Link href="/fields">Fields</Link>
-          <Link href="/sources">Sources</Link>
+          <Link href="/"><div className="p-2 hover:bg-gray-200 cursor-pointer">Home</div></Link>
+          <Link href="/scraping-sessions/new"><div className="p-2 hover:bg-gray-200 cursor-pointer">New Scraping-sessions <ScraperInProgress /></div></Link>
+          <Link href="/field-types"><div className="p-2 hover:bg-gray-200 cursor-pointer">Field Types</div></Link>
+          <Link href="/fields"><div className="p-2 hover:bg-gray-200 cursor-pointer">Fields</div></Link>
+          <Link href="/sources"><div className="p-2 hover:bg-gray-200 cursor-pointer">Sources</div></Link>
         </div>
       ) : null}
     </div>

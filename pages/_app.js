@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
+import "../styles/scraperInProgress.css";
 
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";

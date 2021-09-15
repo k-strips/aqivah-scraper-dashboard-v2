@@ -8,6 +8,7 @@ import scrapingSessions from "api/scrapingSessions";
 import useLoader from "hooks/useLoader";
 import { useEffect, useState } from "react";
 const { default: useNotifier } = require("hooks/useToast");
+import ScraperInProgress from "@components/ScraperInProgress";
 
 let currentPage;
 let maxPage;
@@ -47,7 +48,9 @@ const columns = {
       id: "Source",
       label: "Source",
       getValue: (record) => (
-        <a href={record?.Source?.url}>{record?.Source?.label}</a>
+        <a href={record?.Source?.url} target="_blank">
+          {record?.Source?.label} <ScraperInProgress />
+        </a>
       ),
     },
     startedAt: {
