@@ -8,7 +8,7 @@ import Heading from "./Header";
 import HeadingWithButton from "./HeadingWithButton";
 import ScraperInProgress from "@components/ScraperInProgress";
 
-const Sidebar = ({ selected = {}, isInMobileView = true }) => {
+const Sidebar = ({ selected = {}, isInMobileView = true, aScraperIsInProgress = false }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -31,7 +31,7 @@ const Sidebar = ({ selected = {}, isInMobileView = true }) => {
           }}
         >
           <Link href="/"><div className="p-2 hover:bg-gray-200 cursor-pointer">Home</div></Link>
-          <Link href="/scraping-sessions/new"><div className="p-2 hover:bg-gray-200 cursor-pointer">New Scraping-sessions <ScraperInProgress /></div></Link>
+          <Link href="/scraping-sessions/new"><div className="p-2 hover:bg-gray-200 cursor-pointer">New Scraping-sessions {aScraperIsInProgress ? <ScraperInProgress /> : null }</div></Link>
           <Link href="/field-types"><div className="p-2 hover:bg-gray-200 cursor-pointer">Field Types</div></Link>
           <Link href="/fields"><div className="p-2 hover:bg-gray-200 cursor-pointer">Fields</div></Link>
           <Link href="/sources"><div className="p-2 hover:bg-gray-200 cursor-pointer">Sources</div></Link>
@@ -51,7 +51,7 @@ const DashboardLayout = (props) => {
   return (
     <div className="md:grid md:grid-cols-10 w-full min-h-screen">
       <div className="md:col-span-2">
-        <Sidebar isInMobileView={isInMobileView} />
+        <Sidebar isInMobileView={isInMobileView} aScraperIsInProgress={props.aScraperIsInProgress} />
       </div>
 
       <div className="p-2 overflow-x-scroll md:col-span-8">

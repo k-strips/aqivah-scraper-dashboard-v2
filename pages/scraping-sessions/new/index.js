@@ -12,6 +12,7 @@ import ScraperInProgress from "@components/ScraperInProgress";
 
 let currentPage;
 let maxPage;
+let aScraperIsInProgress = false;
 
 async function fetchScrapingSessions({
   notify,
@@ -24,6 +25,12 @@ async function fetchScrapingSessions({
     const response = await scrapingSessions.list({ scraper: "NEW" });
     currentPage = response.page;
     maxPage = Math.ceil(response.totalResults / response.perPage);
+    response.data.forEach((el) => {
+      // Will become true if at least there's one scraper session with no endedAt value
+      if (el.endedAt === null || "") {
+        aScraperIsInProgress = true;
+      }
+    });
     setScrapingSessions(augmentResponseForTable(response));
   } catch (error) {
     notify.error("Failed to fetch scraping sessions");
@@ -126,6 +133,7 @@ function NewProperties() {
     <DashboardLayout
       heading={`New Properties Scraping Sessions`}
       hideBackButton
+      aScraperIsInProgress={aScraperIsInProgress}
     >
       <CustomTable columns={columns} records={scrapingSessions} />
       <PrevNextButtons
