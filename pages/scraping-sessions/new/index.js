@@ -49,7 +49,8 @@ const columns = {
       label: "Source",
       getValue: (record) => (
         <a href={record?.Source?.url} target="_blank">
-          {record?.Source?.label} <ScraperInProgress />
+          {record?.Source?.label}{" "}
+          {record?.endedAt ? null : <ScraperInProgress />}
         </a>
       ),
     },

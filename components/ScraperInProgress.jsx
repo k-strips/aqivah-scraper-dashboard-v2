@@ -2,6 +2,6 @@
 
 export default function ScraperInProgress() {
     return (
-            <div class="clock"></div>
+            <div className="clock"></div>
     )
 }
