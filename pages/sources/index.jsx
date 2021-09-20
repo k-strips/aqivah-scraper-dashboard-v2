@@ -163,7 +163,7 @@ function Sources() {
         </Modal.Header>
         <Modal.Body>
           Are you sure you want to delete the <b>"{sourceToDelete?.label}"</b>{" "}
-          source?
+          source? This will also delete all existing scraping sessions from this source!
         </Modal.Body>
         <Modal.Footer>
           <Button
