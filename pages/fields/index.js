@@ -21,6 +21,7 @@ async function deleteField(id, notify = { error: (msg) => alert(msg) }) {
 }
 
 async function fetchFields({ showLoader, hideLoader, notify, setFields }) {
+  console.log("fetchFields");
   try {
     showLoader();
     const response = await FieldsApi.list();
